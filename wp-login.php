@@ -11,6 +11,17 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require __DIR__ . '/wp-load.php';
 
+if ( is_user_logged_in() ) {
+  if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+    $redirect_to = $_REQUEST['redirect_to'];
+  }
+  else {
+    $redirect_to = '/';
+  }
+  wp_safe_redirect( $redirect_to );
+  exit;
+}
+
 // Redirect to HTTPS login if forced to use SSL.
 if ( force_ssl_admin() && ! is_ssl() ) {
 	if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
